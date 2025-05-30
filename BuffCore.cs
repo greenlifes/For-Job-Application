@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Yoto.Status;
+using Green.Status;
 using System;
 using Sirenix.OdinInspector;
 using UnityAtoms;
 using System.Reflection;
 using System.Linq;
 
-namespace Yoto.Buffs
+namespace Green.Buffs
 {
     public delegate void BuffAction(ref StatusValue value, IList<int> keys);
 
