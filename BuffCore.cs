@@ -9,6 +9,10 @@ using System.Linq;
 
 namespace Green.Buffs
 {
+    //Use "CustomBuffSetting" to create "CustomBuff" instance, StatusValue walk throuth pipeline of "CustomBuff" to calculate value
+    //CustomBuff <- BuffCore
+    //CustomBuffSetting <- BuffSettingCore<CustomBuff> <- BuffSetting <- ScriptableObject
+
     public delegate void BuffAction(ref StatusValue value, IList<int> keys);
 
     [Serializable]
@@ -20,7 +24,6 @@ namespace Green.Buffs
         public int Stack = 1;
         public int MaxStack = 1;
         public bool CasterIndependent;  //Separate with different caster
-        public bool IsElemental; //TODO elemental determining should not belong here
         //
         public bool Conditional;
         [ShowIf("Conditional"), LabelText("$Title")]
@@ -71,7 +74,7 @@ namespace Green.Buffs
         }
         public float RemainDuration => Duration > 0 ? _startTime + Duration - Time.time : Mathf.Infinity;
         public void ResetTimer() => _startTime = Time.time;
-        public bool Agree(ref StatusValue statusValue, IList<int> keys)
+        public bool Agree(ref StatusValue statusValue, IList<int> keys) //General key condition check method in pipeline
         {
             if (!Conditional || ConditionKeys.Length == 0) { return !ReverseConditional; }
             if (keys == null) { return ReverseConditional; } // No Status
@@ -101,7 +104,7 @@ namespace Green.Buffs
             return clone;
         }
         private void MethodStringTyping() { foreach (var ms in TagPairSetting) { ms.Type = this.GetType(); } }
-        private IEnumerable<string> DropDownCharacterStatusVoid()
+        private IEnumerable<string> DropDownCharacterStatusVoid() //Provide matched method to Function Register
         {
             var testTypes = new[] { typeof(CharacterStatus) };
             var returnType = typeof(void);
@@ -113,7 +116,7 @@ namespace Green.Buffs
             });
             return Array.ConvertAll(find, x => x.Name);
         }
-        private IEnumerable<string> DropDownCharacterStatusBool()
+        private IEnumerable<string> DropDownCharacterStatusBool() //Provide matched method to Function Register
         {
             var testTypes = new[] { typeof(CharacterStatus) };
             var returnType = typeof(bool);
@@ -161,7 +164,7 @@ namespace Green.Buffs
     }
     public abstract class BuffSettingCore<T> : BuffSetting where T : BuffCore, new()
     {
-        [SerializeField, HideLabel, TitleGroup("$Title")/*, OnStateUpdate("DataUpdate")*/]
+        [SerializeField, HideLabel, TitleGroup("$Title")]
         private T _data = new T();
 
         public T GetBuffCore() => _data;
@@ -198,9 +201,5 @@ namespace Green.Buffs
         private MethodInfo _apply;
         private MethodInfo _update;
         private Dictionary<StatusTagConstant, MethodInfo> _tagPair = new();
-    }
-    public interface IBuffDamage
-    {
-        public void AddDamageRecord(int damage);
     }
 }
