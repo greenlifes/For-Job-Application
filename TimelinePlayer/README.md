@@ -6,10 +6,9 @@ SequencePlayer.cs is simple and light, easy to implement in any third-party FSM 
 ```
 Assets/TimelinePlayer/
 ├── Player/          Player
-│   └── SequencePlayer.cs
+│   
 ├── ReferenceHub/    CI
-│   ├── ReferenceHub.cs
-│   └── ReferenceEntry.cs
+│   
 ├── Timeline/        Timeline
 │   ├── ActionClips/     Timeline action
 │   ├── Data/            Timeline data
