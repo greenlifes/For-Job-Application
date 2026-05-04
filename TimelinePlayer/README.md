@@ -1,5 +1,5 @@
 ## TimelinePlayer
-TimelinePlayer is a WYSIWYG skill editing tool, let player can fast editing & preview chatacter action setting in unity timeline, then saved to serialized data which can be play in SequencePlayer.cs
+TimelinePlayer is a WYSIWYG skill editing tool, let user can fast editing & preview chatacter action setting in unity timeline, then saved to serialized data which can be play in SequencePlayer.cs
 SequencePlayer.cs is simple and light, easy to implement in any third-party FSM action or state
 
 ## Index
